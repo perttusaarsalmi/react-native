@@ -1,18 +1,31 @@
 import React from 'react';
-import Text from './Text';
+import { View, StyleSheet } from 'react-native';
+import RepositoryHeader from './RepositoryHeader';
+import RepositoryStats from './RepositoryStats';
+import theme from '../theme';
 
-const RepositoryItem = ({ item }) => {
-  return (
-    <>
-      <Text color="primary" fontSize="subheading" fontWeight="bold">Full name: {item.fullName}</Text>
-      <Text color="textSecondary">Description: {item.description}</Text>
-      <Text color="textSecondary">Language: {item.language}</Text>
-      <Text color="textSecondary">Stars: {item.stargazersCount}</Text>
-      <Text color="textSecondary">Forks: {item.forksCount}</Text>
-      <Text color="textSecondary">Reviews: {item.reviewCount}</Text>
-      <Text color="textSecondary">Rating: {item.ratingAverage}</Text>
-    </>
-  );
-};
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    backgroundColor: 'white',
+  },
+});
+
+const RepositoryItem = ({ item }) => (
+  <View style={styles.container}>
+    <RepositoryHeader
+      avatarUrl={item.ownerAvatarUrl}
+      fullName={item.fullName}
+      description={item.description}
+      language={item.language}
+    />
+    <RepositoryStats
+      stars={item.stargazersCount}
+      forks={item.forksCount}
+      reviews={item.reviewCount}
+      rating={item.ratingAverage}
+    />
+  </View>
+);
 
 export default RepositoryItem;
