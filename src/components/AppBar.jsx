@@ -3,8 +3,11 @@ import Constants from 'expo-constants';
 import theme from '../theme';
 import Text from './Text';
 import {ScrollView} from 'react-native';
-
+import { ME } from '../graphql/queries';
 import { useNavigate } from 'react-router-native';
+import { useQuery, useApolloClient } from '@apollo/client/react';
+import useSignOut from '../hooks/useSignOut';
+
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +27,15 @@ const styles = StyleSheet.create({
 
 const AppBar = () => {
   const navigate = useNavigate();
+  const { data } = useQuery(ME);
+  const signOut = useSignOut();
 
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/signIn');
+  };
+
+  const user = data?.me;
   return (
     <View style={styles.container}>
         <ScrollView horizontal>
@@ -33,11 +44,19 @@ const AppBar = () => {
           Repositories
         </Text>
       </Pressable>
-      <Pressable style={styles.pressable} onPress={() => navigate('/signIn')}>
-        <Text color="appBarText" fontWeight="bold" fontSize="heading">
-          Sign in
-        </Text>
-      </Pressable>
+        {user ? (
+          <Pressable style={styles.pressable} onPress={handleSignOut}>
+            <Text color="appBarText" fontWeight="bold" fontSize="heading">
+              Sign out
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable style={styles.pressable} onPress={() => navigate('/signIn')}>
+            <Text color="appBarText" fontWeight="bold" fontSize="heading">
+              Sign in
+            </Text>
+          </Pressable>
+        )}
       </ScrollView>
     </View>
   );
