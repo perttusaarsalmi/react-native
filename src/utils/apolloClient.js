@@ -1,9 +1,11 @@
 import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import crossFetch from 'cross-fetch';
+import Constants from 'expo-constants';
+
 
 const createApolloClient = () => {
   const httpLink = createHttpLink({
-    uri: 'http://192.168.1.109:4000/graphql',
+    uri: Constants.expoConfig.apolloUri,
     fetch: crossFetch,
   });
 
