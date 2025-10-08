@@ -3,6 +3,7 @@ import { View, TextInput, Pressable, StyleSheet } from 'react-native';
 import { useFormik } from 'formik';
 import Text from './Text';
 import * as yup from 'yup';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   container: {
@@ -14,12 +15,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     fontSize: 16,
-    marginBottom: 4, // smaller margin so error is closer
+    marginBottom: 4,
   },
   errorText: {
     color: '#d73a4a',
     fontSize: 14,
-    marginBottom: 12, // space below error before next input
+    marginBottom: 12,
   },
   button: {
     backgroundColor: '#007bff',
@@ -36,26 +37,31 @@ const styles = StyleSheet.create({
 });
 
 const SignIn = () => {
+const [signIn, result] = useSignIn();
 
 const validationSchema = yup.object().shape({
       username: yup
         .string() // must be a string
         .min(3, 'Username must be at least 3 characters')
-        .required('Username is required'), // required field
+        .required('Username is required'),
       password: yup
         .string() // must be a string
-        .min(6, 'Password must be at least 6 characters') // optional minimum length
-        .required('Password is required'), // required field
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required')
     });
 
 
-  const onSubmit = values => {
-    const username = values.username;
-    const password = values.password;
-    console.log('Username:', username);
-    console.log('Password:', password);
-  };
 
+const onSubmit = async (values) => {
+  const { username, password } = values;
+
+  try {
+    const data = await signIn({ username, password });
+    console.log(data);
+  } catch (e) {
+    console.log(e);
+  }
+};
   const formik = useFormik({
     initialValues: {
       username: '',
