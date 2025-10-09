@@ -30,6 +30,7 @@
     "cross-fetch": "^4.1.0",
     "dotenv": "^17.2.3",
     "expo": "~50.0.17",
+    "expo-linking": "^8.0.8",
     "expo-status-bar": "~1.11.1",
     "formik": "^2.4.6",
     "graphql": "^16.11.0",
