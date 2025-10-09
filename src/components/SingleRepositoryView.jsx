@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, Button, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, Button, StyleSheet, FlatList } from 'react-native';
 import { useParams } from 'react-router-native';
 import { useQuery } from '@apollo/client/react';
 import { GET_REPOSITORY } from '../graphql/queries';
 import RepositoryItem from './RepositoryItem';
 import { Linking } from 'react-native';
+import ReviewCard from './ReviewCard'
 
 const styles = StyleSheet.create({
   outer: {
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'white',
-    marginBottom: 16,
+    marginBottom: 8,
     paddingBottom: 16,
   },
   button: {
@@ -34,6 +35,7 @@ const SingleRepositoryView = () => {
   if (error) return <Text>Error: {error.message}</Text>;
 
   const item = data.repository;
+  const reviews = item.reviews.edges.map(edge => edge.node);
 
   const handleOpenInGitHub = () => {
     Linking.openURL(item.url);
@@ -46,6 +48,12 @@ const SingleRepositoryView = () => {
         <Button title="Open in GitHub" onPress={handleOpenInGitHub} />
       </View>
     </View>
+          <FlatList
+            data={reviews}
+            keyExtractor={review => review.id}
+            renderItem={({ item }) => <ReviewCard review={item} />}
+            contentContainerStyle={{ paddingBottom: 16 }}
+          />
   </View>
     );
 };
