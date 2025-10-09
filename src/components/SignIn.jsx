@@ -1,10 +1,6 @@
 import React from 'react';
 import { View, TextInput, Pressable, StyleSheet } from 'react-native';
-import { useFormik } from 'formik';
 import Text from './Text';
-import * as yup from 'yup';
-import useSignIn from '../hooks/useSignIn';
-import { useNavigate } from "react-router";
 
 const styles = StyleSheet.create({
   container: {
@@ -37,75 +33,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignIn = () => {
-const [signIn, result] = useSignIn();
-const navigate = useNavigate();
-
-const validationSchema = yup.object().shape({
-      username: yup
-        .string() // must be a string
-        .min(3, 'Username must be at least 3 characters')
-        .required('Username is required'),
-      password: yup
-        .string() // must be a string
-        .min(6, 'Password must be at least 6 characters')
-        .required('Password is required')
-    });
-
-
-
-const onSubmit = async (values) => {
-  const { username, password } = values;
-
-  try {
-    const data = await signIn({ username, password });
-    console.log(data);
-    navigate('/');
-  } catch (e) {
-    console.log(e);
-  }
-};
-  const formik = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-    },
-validationSchema,
-    onSubmit,
-  });
-
-
-  return (
-    <View style={styles.container}>
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor="#aaa"
-        value={formik.values.username}
-        onChangeText={formik.handleChange('username')}
-      />
-             {formik.touched.username && formik.errors.username && (
-              <Text style={styles.errorText}>{formik.errors.username}</Text>
-             )}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#aaa"
-        value={formik.values.password}
-        onChangeText={formik.handleChange('password')}
-        secureTextEntry
-      />
-       {formik.touched.password && formik.errors.password && (
-        <Text style={styles.errorText}>{formik.errors.password}</Text>
-       )}
-      <Pressable style={styles.button} onPress={formik.handleSubmit}>
-        <Text style={styles.buttonText}>Sign In</Text>
-      </Pressable>
-    </View>
-  );
-};
-
-
-
+const SignIn = ({
+  values,
+  errors,
+  touched,
+  handleChange,
+  handleSubmit,
+}) => (
+  <View style={styles.container}>
+    <TextInput
+      style={styles.input}
+      placeholder="Username"
+      placeholderTextColor="#aaa"
+      value={values.username}
+      onChangeText={handleChange('username')}
+    />
+    {touched.username && errors.username && (
+      <Text style={styles.errorText}>{errors.username}</Text>
+    )}
+    <TextInput
+      style={styles.input}
+      placeholder="Password"
+      placeholderTextColor="#aaa"
+      value={values.password}
+      onChangeText={handleChange('password')}
+      secureTextEntry
+    />
+    {touched.password && errors.password && (
+      <Text style={styles.errorText}>{errors.password}</Text>
+    )}
+    <Pressable style={styles.button} onPress={handleSubmit}>
+      <Text style={styles.buttonText}>Sign In</Text>
+    </Pressable>
+  </View>
+);
 
 export default SignIn;

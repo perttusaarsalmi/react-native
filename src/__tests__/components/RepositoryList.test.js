@@ -1,6 +1,7 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react-native';
 import RepositoryListContainer from '../../components/RepositoryListContainer';
+import SignIn from '../../components/SignIn'
 
 describe('RepositoryList', () => {
   describe('RepositoryListItem', () => {
