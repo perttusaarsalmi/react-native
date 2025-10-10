@@ -62,6 +62,11 @@ const AppBar = () => {
             </Text>
           </Pressable>
         )}
+          {!user && <Pressable style={styles.pressable} onPress={() => navigate('/signUp')}>
+            <Text color="appBarText" fontWeight="bold" fontSize="heading">
+              Sign up
+            </Text>
+          </Pressable>}
       </ScrollView>
     </View>
   );

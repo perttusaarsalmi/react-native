@@ -35,8 +35,8 @@ const CreateReviewContainer = ({ onSubmit: onSubmitProp }) => {
     const { ownerName, repositoryName, rating, text } = values;
     try {
       const data = await createReview({ ownerName, repositoryName, rating, text });
-      const repositoryId = data.createReview.repositoryId; // Get the id from the mutation result
-      navigate(`/repositories/${repositoryId}`); // Redirect to the single repository view
+      const repositoryId = data.createReview.repositoryId;
+      navigate(`/repositories/${repositoryId}`);
     } catch (e) {
       console.log(e);
     }
