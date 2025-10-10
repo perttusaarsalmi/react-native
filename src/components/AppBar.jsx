@@ -44,6 +44,11 @@ const AppBar = () => {
           Repositories
         </Text>
       </Pressable>
+      {user && <Pressable style={styles.pressable} onPress={() => navigate('/create-review')}>
+        <Text color="appBarText" fontWeight="bold" fontSize="heading">
+          Create Review
+        </Text>
+      </Pressable>}
         {user ? (
           <Pressable style={styles.pressable} onPress={handleSignOut}>
             <Text color="appBarText" fontWeight="bold" fontSize="heading">

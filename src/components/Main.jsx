@@ -5,6 +5,7 @@ import AppBar from './AppBar'
 import SignInContainer from './SignInContainer'
 import { Route, Routes, Navigate } from 'react-router-native';
 import SingleRepositoryView from './SingleRepositoryView';
+import CreateReviewContainer from './CreateReviewContainer'; // Import your container
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +23,7 @@ const Main = () => {
                 <Route path="/signIn" element={<SignInContainer />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
                 <Route path="/repositories/:id" element={<SingleRepositoryView />} />
+                <Route path="/create-review" element={<CreateReviewContainer />} /> {/* <-- Add this */}
            </Routes>
     </View>
   );
